@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/coffee_screen.dart';
 
 void main() {
   runApp(EISApp());
@@ -55,12 +56,19 @@ class HomeScreen extends StatelessWidget {
                 label: name,
                 size: buttonSize,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ScreenRow(category: name)),
-                  );
+                  if (name == 'Coffee') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CoffeeScreen()),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ScreenRow(category: name)),
+                    );
+                  }
                 },
               ))
                   .toList(),
