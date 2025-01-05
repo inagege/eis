@@ -15,13 +15,13 @@ class CoffeeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Take a Coffee Break ☕',
-              style: TextStyle(fontSize: 20, color: Colors.brown, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 10, color: Colors.brown, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ),
 
           // Spacing
-          SizedBox(height: 20),
+          SizedBox(height: 2),
 
           // GIF or Video
           Expanded(
@@ -34,7 +34,7 @@ class CoffeeScreen extends StatelessWidget {
           ),
 
           // Spacing
-          SizedBox(height: 20),
+          SizedBox(height: 10),
 
           // Button to Return Home
           ElevatedButton(
