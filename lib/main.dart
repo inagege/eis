@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/coffee_screen.dart';
+import 'screens/coffee_prompt_screen.dart'; // Import CoffeePromptScreen
 
 void main() {
   runApp(EISApp());
@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                   if (name == 'Coffee') {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CoffeeScreen()),
+                      MaterialPageRoute(builder: (context) => CoffeePromptScreen()),
                     );
                   } else {
                     Navigator.push(
