@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/nap_start.dart';
 
 void main() {
   runApp(EISApp());
@@ -31,12 +32,19 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Small circle at the top of the screen
           Container(
-            margin: EdgeInsets.only(top: 10), // Position circle downwards
+            margin: EdgeInsets.only(top: 10), // Position the circle slightly downwards
             width: 20, // Diameter of the circle
             height: 20,
             decoration: BoxDecoration(
-              color: Color(0xFFFFC0CB), // Light pink color
-              shape: BoxShape.circle,
+              color: Color(0xFFFFC0CB), // Light pink color for the circle
+              shape: BoxShape.circle, // Makes the container a  circle
+            ),
+            child: Center(
+              child: Icon(
+                Icons.pause_circle, // Pause symbol inside the circle
+                color: Colors.brown, // Color of the pause symbol
+                size: 12, // Size of the pause symbol
+              ),
             ),
           ),
 
@@ -55,12 +63,19 @@ class HomeScreen extends StatelessWidget {
                 label: name,
                 size: buttonSize,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ScreenRow(category: name)),
-                  );
+                  if (name == 'Nap') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NapStartScreen()),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ScreenRow(category: name)),
+                    );
+                  }
                 },
               ))
                   .toList(),
