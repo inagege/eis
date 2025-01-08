@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'startscreen.dart'; // Importiert die Startscreen-Datei
 import 'yogascreens.dart'; // Importiert die Datei YogaScreens
+import 'musicscreen.dart'; // Importiert die Datei MusicScreen
 
 void main() {
   runApp(EISApp());
@@ -19,7 +20,7 @@ class EISApp extends StatelessWidget {
 
 // Home Screen mit Haupt-Buttons und einem Kreis oben
 class HomeScreen extends StatelessWidget {
-  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Vent', 'Coffee', 'Food'];
+  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Vent', 'Coffee', 'Food', 'Music'];
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +58,19 @@ class HomeScreen extends StatelessWidget {
                   label: name,
                   size: buttonSize,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => YogaScreens(category: name), // Verweis auf YogaScreens
-                      ),
-                    );
+                    if (name == 'Music') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MusicScreen()),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => YogaScreens(category: name), // Verweis auf YogaScreens
+                        ),
+                      );
+                    }
                   },
                 );
               }).toList(),
