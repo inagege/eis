@@ -59,6 +59,7 @@ flutter:
   assets:
     - assets/nap_image.png
     - assets/classic_alarm.mp3
+    - assets/walk_image.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
