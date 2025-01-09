@@ -9,8 +9,10 @@ class SetupScreen extends StatelessWidget {
   final Function(Color,Color) onButtonColorChanged;
   final Color buttonColor;
   final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
 
-  SetupScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor});
+  SetupScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor, required this.onScreenSelectionChanged, required this.screenSelection});
 
   void _handleDeny(BuildContext context) async {
     // Reset first run status
@@ -32,6 +34,8 @@ class SetupScreen extends StatelessWidget {
             onButtonColorChanged: onButtonColorChanged, // Pass button color callback
             buttonColor: buttonColor, // Pass the button color
             buttonTextColor: buttonTextColor, // Pass the button text color
+            onScreenSelectionChanged: onScreenSelectionChanged,
+            screenSelection: screenSelection,
         ),
       ),
     );

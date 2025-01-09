@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 //import 'Screens/yoga_screen.dart';
 //import 'Screens/walk_screen.dart';
 //import 'Screens/nap_screen.dart';
-//import 'Screens/air_screen.dart';
+//import 'Screens/Vent_screen.dart';
 //import 'Screens/coffee_screen.dart';
 //import 'Screens/clean_screen.dart';
 
-// Home Screen with Main Round Buttons and Circle on Top
-class SelectionScreen extends StatelessWidget {
+// Home Screen with Activity Slides and Icons
+class SelectionSwipeScreen extends StatelessWidget {
   final Function(bool) onThemeChanged;
   final bool isDarkMode;
   final Function(Color,Color) onButtonColorChanged;
@@ -17,16 +17,20 @@ class SelectionScreen extends StatelessWidget {
   final Function(String) onScreenSelectionChanged;
   final String screenSelection;
 
-  SelectionScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor, required this.onScreenSelectionChanged, required this.screenSelection});
+  SelectionSwipeScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor, required this.onScreenSelectionChanged, required this.screenSelection});
 
-  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Air', 'Coffee', 'Clean'];
+
+  final List<Map<String, dynamic>> activities = [
+    {'name': 'Yoga', 'icon': Icons.self_improvement},
+    {'name': 'Walk', 'icon': Icons.directions_walk},
+    {'name': 'Nap', 'icon': Icons.bed},
+    {'name': 'Vent', 'icon': Icons.air},
+    {'name': 'Coffee', 'icon': Icons.local_cafe},
+    {'name': 'Clean', 'icon': Icons.cleaning_services},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // Calculate button size based on screen width
-    double screenWidth = MediaQuery.of(context).size.width;
-    double buttonSize = (screenWidth - 10) / 3; // Subtract padding and spacing
-
     return Scaffold(
       body: Column(
         children: [
@@ -51,21 +55,18 @@ class SelectionScreen extends StatelessWidget {
           // Spacing below the circle
           SizedBox(height: 5),
 
-          // Grid of Round Buttons
+          // PageView for swiping between activities
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              padding: EdgeInsets.all(25),
-              children: categories.map((name) => RoundButton(
-                label: name,
-                size: buttonSize,
-                onPressed: () {
-                  Widget targetScreen;
-                  switch (name) {
-                  //Todo: Screen auskommentieren
-                  /*case 'Yoga':
+            child: PageView.builder(
+              itemCount: activities.length,
+              itemBuilder: (context, index) {
+                var activity = activities[index];
+                return GestureDetector(
+                  onTap: () {
+                    Widget targetScreen;
+                    switch (activity['name']) {
+                    //Todo: Screen auskommentieren
+                    /*case 'Yoga':
                         targetScreen = YogaScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
@@ -118,68 +119,44 @@ class SelectionScreen extends StatelessWidget {
                           buttonTextColor: buttonTextColor,
                           onSelectionScreenChanged: onSelectionScreenChanged,
                           screenSelection: screenSelection,);*/
-                    default:
-                      targetScreen = SelectionScreen(onThemeChanged: onThemeChanged,
-                        isDarkMode: isDarkMode,
-                        onButtonColorChanged: onButtonColorChanged, // Pass button color callback
-                        buttonColor: buttonColor, // Pass the button color
-                        buttonTextColor: buttonTextColor,
-                        onScreenSelectionChanged: onScreenSelectionChanged,
-                        screenSelection: screenSelection,// Pass the button text color
-                      ); // Fallback screen
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => targetScreen),
-                  );
-                },
-              buttonColor: buttonColor, buttonTextColor: buttonTextColor,))
-                  .toList(),
+                      default:
+                        targetScreen = SelectionSwipeScreen(onThemeChanged: onThemeChanged,
+                          isDarkMode: isDarkMode,
+                          onButtonColorChanged: onButtonColorChanged,
+                          buttonColor: buttonColor,
+                          buttonTextColor: buttonTextColor,
+                          onScreenSelectionChanged: onScreenSelectionChanged,
+                          screenSelection: screenSelection,
+                        ); // Fallback screen
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => targetScreen),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        activity['icon'],
+                        size: 100, // Adjust size as needed
+                        color: buttonColor,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        activity['name'],
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: buttonColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class RoundButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onPressed;
-  final double size; // Add size parameter
-  final Color buttonColor; // Add button color parameter
-  final Color buttonTextColor; // Add text color parameter
-
-  const RoundButton({
-    super.key,
-    required this.label,
-    required this.onPressed,
-    required this.size,
-    required this.buttonColor, // Accept button color
-    required this.buttonTextColor, // Accept text color
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: size, // Use dynamic size
-        height: size, // Use dynamic size
-        decoration: BoxDecoration(
-          color: buttonColor, // Set button color dynamically
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: size * 0.2, // Adjust font size based on button size
-              color: buttonTextColor, // Set text color dynamically
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
       ),
     );
   }

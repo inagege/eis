@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'selection_screen.dart';
 import 'settings_screen.dart';
+import 'selection_swipe_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function(bool) onThemeChanged;
@@ -8,8 +9,10 @@ class HomeScreen extends StatelessWidget {
   final Function(Color,Color) onButtonColorChanged;
   final Color buttonColor;
   final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
 
-  HomeScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor});
+  HomeScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor, required this.onScreenSelectionChanged, required this.screenSelection});
 
   // Navigate to Settings Screen
   void navigateToSettings(BuildContext context) {
@@ -21,6 +24,8 @@ class HomeScreen extends StatelessWidget {
           onButtonColorChanged: onButtonColorChanged, // Pass button color callback
           buttonColor: buttonColor, // Pass the button color
           buttonTextColor: buttonTextColor, // Pass the button text color
+          onScreenSelectionChanged: onScreenSelectionChanged,
+          screenSelection: screenSelection,
         ),
       ),
     );
@@ -35,8 +40,35 @@ class HomeScreen extends StatelessWidget {
         onButtonColorChanged: onButtonColorChanged, // Pass button color callback
         buttonColor: buttonColor, // Pass the button color
         buttonTextColor: buttonTextColor, // Pass the button text color
+        onScreenSelectionChanged: onScreenSelectionChanged,
+        screenSelection: screenSelection,
       )),
     );
+  }
+
+  // Navigate to Selection Swipe Screen
+  void navigateToSelectionSwipe(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectionSwipeScreen(onThemeChanged: onThemeChanged,
+        isDarkMode: isDarkMode,
+        onButtonColorChanged: onButtonColorChanged, // Pass button color callback
+        buttonColor: buttonColor, // Pass the button color
+        buttonTextColor: buttonTextColor, // Pass the button text color
+        onScreenSelectionChanged: onScreenSelectionChanged,
+        screenSelection: screenSelection,
+      )),
+    );
+  }
+
+  void navigateBasedOnSelection(String screenSelection, BuildContext context) {
+    if (screenSelection == 'Grid') {
+      // Navigate to SelectionScreen
+      navigateToSelection(context);
+    } else {
+      // Navigate to SelectionSwipeScreen
+      navigateToSelectionSwipe(context);
+    }
   }
 
   @override
@@ -78,7 +110,7 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () => navigateToSelection(context),
+              onPressed: () => navigateBasedOnSelection(screenSelection, context),
               child: Text(
                 'Start Session',
                 style: TextStyle(color: buttonTextColor, fontSize: 18),
