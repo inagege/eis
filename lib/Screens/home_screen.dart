@@ -1,120 +1,91 @@
 import 'package:flutter/material.dart';
-//Todo: Hier könnt ihr eure Screens auskommentieren, dann unten im switch case noch passenden Screen auskommentieren
-//import 'Screens/yoga_screen.dart';
-//import 'Screens/walk_screen.dart';
-//import 'Screens/nap_screen.dart';
-//import 'Screens/air_screen.dart';
-//import 'Screens/coffee_screen.dart';
-//import 'Screens/clean_screen.dart';
+import 'selection_screen.dart';
+import 'settings_screen.dart';
 
-// Home Screen with Main Round Buttons and Circle on Top
 class HomeScreen extends StatelessWidget {
+  final Function(bool) onThemeChanged;
+  final bool isDarkMode;
 
-  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Air', 'Coffee', 'Clean'];
+  HomeScreen({required this.onThemeChanged, required this.isDarkMode});
 
-  @override
-  Widget build(BuildContext context) {
-    // Calculate button size based on screen width
-    double screenWidth = MediaQuery.of(context).size.width;
-    double buttonSize = (screenWidth - 10) / 3; // Subtract padding and spacing
-
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          // Small circle at the top of the screen
-          Container(
-            margin: EdgeInsets.only(top: 10), // Position circle downwards
-            width: 20, // Diameter of the circle
-            height: 20,
-            decoration: BoxDecoration(
-              color: Color(0xFFFFC0CB), // Light pink color
-              shape: BoxShape.circle,
-            ),
-          ),
-
-          // Spacing below the circle
-          SizedBox(height: 5),
-
-          // Grid of Round Buttons
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              padding: EdgeInsets.all(25),
-              children: categories.map((name) => RoundButton(
-                label: name,
-                size: buttonSize,
-                onPressed: () {
-                  Widget targetScreen;
-                  switch (name) {
-                  //Todo: Screen auskommentieren
-                  /*case 'Yoga':
-                      targetScreen = YogaScreen();
-                      break;
-                    case 'Walk':
-                      targetScreen = WalkScreen();
-                      break;
-                    case 'Nap':
-                      targetScreen = NapScreen();
-                      break;
-                    case 'Vent':
-                      targetScreen = VentScreen();
-                      break;
-                    case 'Coffee':
-                      targetScreen = CoffeeScreen();
-                      break;
-                    case 'Food':
-                      targetScreen = FoodScreen();
-                      break;*/
-                    default:
-                      targetScreen = HomeScreen(); // Fallback screen
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => targetScreen),
-                  );
-                },
-              ))
-                  .toList(),
-            ),
-          ),
-        ],
+  // Navigate to Settings Screen
+  void navigateToSettings(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SettingsScreen(
+          onThemeChanged: onThemeChanged,
+          isDarkMode: isDarkMode,
+        ),
       ),
     );
   }
-}
 
-// Round Button Widget
-class RoundButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onPressed;
-  final double size; // Add size parameter
-
-  const RoundButton({super.key,
-    required this.label,
-    required this.onPressed,
-    required this.size
-  });
+  // Navigate to Selection Screen
+  void navigateToSelection(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectionScreen(
+        onThemeChanged: onThemeChanged,
+        isDarkMode: isDarkMode,
+      )),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: size, // Use dynamic size
-        height: size, // Use dynamic size
-        decoration: BoxDecoration(
-          color: Color(0xFFFFC0CB),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(fontSize: size * 0.2, color: Color(0xFF4D2324)), // Adjust font size
-            textAlign: TextAlign.center,
-          ),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Settings Button (Smaller)
+            ElevatedButton(
+              onPressed: () => navigateToSettings(context),
+              child: Icon(Icons.settings, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                side: BorderSide(
+                  color: Color(0xFFFFC0CB),
+                  width: 1,
+                ),
+                shape: CircleBorder(
+                  side: BorderSide(
+                    color: Color(0xFFFFC0CB),
+                    width: 1,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Main text and Start Session Button
+            Text(
+              'Need a break?',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFFFC0CB),
+              ),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () => navigateToSelection(context),
+              child: Text(
+                'Start Session',
+                style: TextStyle(color: Color(0xFF4D2324), fontSize: 18),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFFFC0CB),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+            ),
+            SizedBox(height: 40),
+          ],
         ),
       ),
     );
