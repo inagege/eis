@@ -2,24 +2,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:eis/main.dart';
 
-class NapScreen extends StatefulWidget {
-  const NapScreen({Key? key}) : super(key: key);
+class WalkScreen extends StatefulWidget {
+  const WalkScreen({Key? key}) : super(key: key);
 
   @override
-  _NapScreenState createState() => _NapScreenState();
+  _WalkScreenState createState() => _WalkScreenState();
 }
 
-class _NapScreenState extends State<NapScreen> {
-  // Define the duration of the nap in seconds (5 minutes)
-  static const int _napDurationSeconds = 5 * 60;
-  int _remainingSeconds = _napDurationSeconds;
+class _WalkScreenState extends State<WalkScreen> {
+  // Define the duration of the walk in seconds (5 minutes)
+  static const int _walkDurationSeconds = 5 * 60;
+  int _remainingSeconds = _walkDurationSeconds;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    // Start the nap timer when the screen is initialized
-    _startNapTimer();
+    // Start the walk timer when the screen is initialized
+    _startWalkTimer();
   }
 
   @override
@@ -29,7 +29,7 @@ class _NapScreenState extends State<NapScreen> {
     super.dispose();
   }
 
-  void _startNapTimer() {
+  void _startWalkTimer() {
     // Creates a periodic timer that decreases the remaining seconds every second
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingSeconds > 0) {
@@ -37,14 +37,14 @@ class _NapScreenState extends State<NapScreen> {
           _remainingSeconds--;
         });
       } else {
-        // When the timer reaches zero, stop it and trigger the nap finished action
+        // When the timer reaches zero, stop it and trigger the walk finished action
         timer.cancel();
-        _onNapFinished();
+        _onWalkFinished();
       }
     });
   }
 
-  void _onNapFinished() {
+  void _onWalkFinished() {
     // Action triggered when the timer ends, e.g., show a dialog or return to the home screen
     showDialog(
       context: context,
@@ -73,7 +73,7 @@ class _NapScreenState extends State<NapScreen> {
         title: Center(
           // Dialog title text
           child: Text(
-            'Time to wake up!',
+            'Time to return!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
@@ -146,7 +146,7 @@ class _NapScreenState extends State<NapScreen> {
 
               const Spacer(), // Pushes the next widget to the bottom of the screen
 
-              // Button to manually cancel the nap
+              // Button to manually cancel the walk
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Center(
@@ -159,7 +159,7 @@ class _NapScreenState extends State<NapScreen> {
                       minimumSize: const Size(120, 48), // Button size
                     ),
                     onPressed: () {
-                      // Cancel the nap and return to the home screen
+                      // Cancel the walk and return to the home screen
                       _timer?.cancel();
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()),

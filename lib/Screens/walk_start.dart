@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'nap_screen.dart';
+import 'walk_screen.dart';
 
-class NapStartScreen extends StatelessWidget {
-  const NapStartScreen({Key? key}) : super(key: key);
+class WalkStartScreen extends StatelessWidget {
+  const WalkStartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class NapStartScreen extends StatelessWidget {
 
                 // Displays the welcome text
                 const Text(
-                  'Ready to take a 5 minute nap?', // Text content
+                  'Ready to take a 5 minute walk?', // Text content
                   style: TextStyle(
                     color: Colors.white, // Text color
                     fontSize: 14, // Font size
@@ -55,7 +55,7 @@ class NapStartScreen extends StatelessWidget {
 
                 // Displays an image from the app's assets
                 Image.asset(
-                  'assets/nap_image.png', // Image path
+                  'assets/walk_image.png', // Image path
                   width: 50, // Image width
                   height: 50, // Image height
                 ),
@@ -75,16 +75,16 @@ class NapStartScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      // Navigates to the "NapScreen" screen
+                      // Navigates to the "WalkScreen" screen
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const NapScreen(),
+                          builder: (context) => const WalkScreen(),
                         ),
                       );
                     },
                     // Text displayed on the button
                     child: const Text(
-                      'Start Nap',
+                      'Start Walk',
                       style: TextStyle(
                         color: Colors.white, // Text color
                         fontSize: 12, // Font size

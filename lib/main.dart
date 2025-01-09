@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/nap_start.dart';
+import 'screens/walk_start.dart';
 
 void main() {
   runApp(EISApp());
@@ -68,6 +69,11 @@ class HomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(builder: (context) => NapStartScreen()),
                     );
+                  } else if (name == 'Walk') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => WalkStartScreen()),
+                    );
                   } else {
                     Navigator.push(
                       context,
@@ -76,6 +82,7 @@ class HomeScreen extends StatelessWidget {
                               ScreenRow(category: name)),
                     );
                   }
+
                 },
               ))
                   .toList(),
