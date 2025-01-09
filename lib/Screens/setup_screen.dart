@@ -6,8 +6,11 @@ import 'home_screen.dart';
 class SetupScreen extends StatelessWidget {
   final Function(bool) onThemeChanged;
   final bool isDarkMode;
+  final Function(Color,Color) onButtonColorChanged;
+  final Color buttonColor;
+  final Color buttonTextColor;
 
-  SetupScreen({required this.onThemeChanged, required this.isDarkMode});
+  SetupScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor});
 
   void _handleDeny(BuildContext context) async {
     // Reset first run status
@@ -24,8 +27,11 @@ class SetupScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => HomeScreen(
-          onThemeChanged: onThemeChanged,
-          isDarkMode: isDarkMode,
+            onThemeChanged: onThemeChanged,
+            isDarkMode: isDarkMode,
+            onButtonColorChanged: onButtonColorChanged, // Pass button color callback
+            buttonColor: buttonColor, // Pass the button color
+            buttonTextColor: buttonTextColor, // Pass the button text color
         ),
       ),
     );
@@ -35,13 +41,31 @@ class SetupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(0.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Small circle at the top of the screen
+            Container(
+              margin: EdgeInsets.only(top: 10), // Position circle downwards
+              width: 20, // Diameter of the circle
+              height: 20,
+              decoration: BoxDecoration(
+                color: buttonColor, // Light pink color
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.settings, // Replace with the desired icon
+                  color: buttonTextColor, // Icon color
+                  size: 15.0, // Adjust size as needed
+                ),
+              ),
+            ),
+
+            // Spacing below the circle
+            SizedBox(height: 10),
             Text(
-              'This app requires access to:',
+              'This app requires\naccess to:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -51,7 +75,7 @@ class SetupScreen extends StatelessWidget {
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 1),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

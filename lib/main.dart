@@ -16,20 +16,29 @@ void main() async {
   final bool firstStart = await IsFirstRun.isFirstRun();
 
   // Run the app
-  runApp(EISApp(firstStart: firstStart));
+  runApp(EISApp(firstStart: firstStart, isDarkMode: isDarkMode));
 }
 
 class EISApp extends StatefulWidget {
   final bool firstStart;
+  final bool isDarkMode;
 
-  EISApp({required this.firstStart});
+  EISApp({required this.firstStart, required this.isDarkMode});
 
   @override
   _EISAppState createState() => _EISAppState();
 }
 
 class _EISAppState extends State<EISApp> {
-  bool _isDarkMode = true;
+  late bool _isDarkMode;
+  Color _buttonColor = Color(0xFFFFC0CB); // Default button color (light red)
+  Color _buttonTextColor = Color(0xFF4D2324); // Default button text color
+
+  @override
+  void initState() {
+    super.initState();
+    _isDarkMode = widget.isDarkMode;
+  }
 
   void _updateTheme(bool isDarkMode) async {
     // Save theme preference
@@ -38,6 +47,14 @@ class _EISAppState extends State<EISApp> {
 
     setState(() {
       _isDarkMode = isDarkMode;
+    });
+  }
+
+  // Method to update button color and text color
+  void _updateButtonColors(Color buttonColor, Color buttonTextColor) {
+    setState(() {
+      _buttonColor = buttonColor;
+      _buttonTextColor = buttonTextColor;
     });
   }
 
@@ -50,10 +67,16 @@ class _EISAppState extends State<EISApp> {
           ? SetupScreen(
         onThemeChanged: _updateTheme,
         isDarkMode: _isDarkMode,
+        onButtonColorChanged: _updateButtonColors, // Pass button color callback
+        buttonColor: _buttonColor, // Pass the button color
+        buttonTextColor: _buttonTextColor, // Pass the button text color
       )
           : HomeScreen(
         onThemeChanged: _updateTheme,
         isDarkMode: _isDarkMode,
+        onButtonColorChanged: _updateButtonColors, // Pass button color callback
+        buttonColor: _buttonColor, // Pass the button color
+        buttonTextColor: _buttonTextColor, // Pass the button text color
       ),
     );
   }
