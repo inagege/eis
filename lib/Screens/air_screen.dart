@@ -10,7 +10,7 @@ class AirScreen extends StatefulWidget {
 }
 
 class _AirScreenState extends State<AirScreen> {
-  static const int _airDurationSeconds = 5 * 60;
+  static const int _airDurationSeconds = 1 * 60;
   int _remainingSeconds = _airDurationSeconds;
   Timer? _timer;
 

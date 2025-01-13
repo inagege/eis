@@ -113,10 +113,18 @@ class _NapScreenState extends State<NapScreen> {
                 ),
               ),
 
-              const Spacer(),
-
+              //const Spacer(),
+// Bild
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+                child: Image.asset(
+                  'assets/sleep_animation.gif',
+                  width: 145,
+                  height: 85,
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
+                padding: const EdgeInsets.only(bottom: 0.0),
                 child: Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(

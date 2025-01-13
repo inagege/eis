@@ -61,6 +61,8 @@ flutter:
     - assets/classic_alarm.mp3
     - assets/walk_image.png
     - assets/air_animation.gif
+    - assets/sleep_animation.gif
+    - assets/walking_animation.gif
 
   # To add assets to your application, add an assets section, like this:
   # assets:
