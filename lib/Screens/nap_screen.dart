@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:eis/main.dart';
+import 'home_screen.dart';
 
 class NapScreen extends StatefulWidget {
   const NapScreen({Key? key}) : super(key: key);
@@ -10,7 +10,6 @@ class NapScreen extends StatefulWidget {
 }
 
 class _NapScreenState extends State<NapScreen> {
-  // Define the duration of the nap in seconds (5 minutes)
   static const int _napDurationSeconds = 5 * 60;
   int _remainingSeconds = _napDurationSeconds;
   Timer? _timer;
@@ -18,26 +17,22 @@ class _NapScreenState extends State<NapScreen> {
   @override
   void initState() {
     super.initState();
-    // Start the nap timer when the screen is initialized
     _startNapTimer();
   }
 
   @override
   void dispose() {
-    // Cancel the timer when leaving the screen to prevent memory leaks
     _timer?.cancel();
     super.dispose();
   }
 
   void _startNapTimer() {
-    // Creates a periodic timer that decreases the remaining seconds every second
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingSeconds > 0) {
         setState(() {
           _remainingSeconds--;
         });
       } else {
-        // When the timer reaches zero, stop it and trigger the nap finished action
         timer.cancel();
         _onNapFinished();
       }
@@ -45,44 +40,31 @@ class _NapScreenState extends State<NapScreen> {
   }
 
   void _onNapFinished() {
-    // Action triggered when the timer ends, e.g., show a dialog or return to the home screen
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        // Insets for dialog margins
         insetPadding: const EdgeInsets.all(8.0),
-
-        // Aligns the dialog actions at the center (from Flutter 2.5 onward)
         actionsAlignment: MainAxisAlignment.center,
-
-        // Padding for the title of the dialog
         titlePadding: const EdgeInsets.only(
-          top: 24.0, // Top margin
+          top: 24.0,
           left: 16.0,
           right: 16.0,
-          bottom: 0.0,
         ),
-
-        // Padding for the actions (e.g., OK button) at the bottom
         actionsPadding: const EdgeInsets.only(
           bottom: 24.0,
           left: 16.0,
           right: 16.0,
         ),
-
         title: Center(
-          // Dialog title text
           child: Text(
             'Time to wake up!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
         ),
-
         actions: [
           TextButton(
             onPressed: () {
-              // Close the dialog and navigate back to the home screen
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -97,69 +79,54 @@ class _NapScreenState extends State<NapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate minutes and seconds from the remaining seconds
     final int minutes = _remainingSeconds ~/ 60;
     final int seconds = _remainingSeconds % 60;
 
     return Scaffold(
-      // Sets the background color of the screen to black
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
-              // Small circular icon at the top of the screen
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Container(
-                  width: 20, // Icon width
-                  height: 20, // Icon height
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFFFC0CB), // Background color (pink)
-                    shape: BoxShape.circle, // Circular shape
-                  ),
-                  child: const Center(
-                    // Adds a pause icon inside the circle
-                    child: Icon(
-                      Icons.pause_circle,
-                      color: Colors.brown, // Icon color
-                      size: 12, // Icon size
-                    ),
-                  ),
+              // Adjusted small circle at the top of the screen
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                width: 20,
+                height: 20,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFC0CB),
+                  shape: BoxShape.circle,
                 ),
               ),
 
-              const SizedBox(height: 10), // Adds vertical spacing
+              const SizedBox(height: 10),
 
-              // Displays the countdown timer text
               Text(
                 'Time remaining: \n${minutes.toString().padLeft(2, '0')}:'
-                    '${seconds.toString().padLeft(2, '0')}', // Formats the time as MM:SS
-                textAlign: TextAlign.center, // Center-aligns the text
+                    '${seconds.toString().padLeft(2, '0')}',
+                textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 18, // Font size
-                  color: Colors.white, // Text color
-                  fontWeight: FontWeight.bold, // Bold text
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const Spacer(), // Pushes the next widget to the bottom of the screen
+              const Spacer(),
 
-              // Button to manually cancel the nap
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[800], // Button background color
+                      backgroundColor: Colors.grey[800],
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24), // Rounded corners
+                        borderRadius: BorderRadius.circular(24),
                       ),
-                      minimumSize: const Size(120, 48), // Button size
+                      minimumSize: const Size(120, 48),
                     ),
                     onPressed: () {
-                      // Cancel the nap and return to the home screen
                       _timer?.cancel();
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -167,7 +134,7 @@ class _NapScreenState extends State<NapScreen> {
                     },
                     child: const Text(
                       'End',
-                      style: TextStyle(color: Colors.white, fontSize: 12), // Button text style
+                      style: TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ),
                 ),

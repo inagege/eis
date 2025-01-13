@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 //Todo: Hier könnt ihr eure Screens auskommentieren, dann unten im switch case noch passenden Screen auskommentieren
 //import 'Screens/yoga_screen.dart';
-//import 'Screens/walk_screen.dart';
-//import 'Screens/nap_screen.dart';
+import 'walk_start.dart';
+import 'nap_start.dart';
 //import 'Screens/air_screen.dart';
 //import 'Screens/coffee_screen.dart';
 //import 'Screens/clean_screen.dart';
@@ -52,14 +52,14 @@ class HomeScreen extends StatelessWidget {
                   //Todo: Screen auskommentieren
                   /*case 'Yoga':
                       targetScreen = YogaScreen();
-                      break;
+                      break;*/
                     case 'Walk':
-                      targetScreen = WalkScreen();
+                      targetScreen = WalkStartScreen();
                       break;
                     case 'Nap':
-                      targetScreen = NapScreen();
+                      targetScreen = NapStartScreen();
                       break;
-                    case 'Vent':
+                    /*case 'Vent':
                       targetScreen = VentScreen();
                       break;
                     case 'Coffee':
