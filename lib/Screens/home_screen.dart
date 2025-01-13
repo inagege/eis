@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //import 'Screens/yoga_screen.dart';
 import 'walk_start.dart';
 import 'nap_start.dart';
-//import 'Screens/air_screen.dart';
+import 'air_start.dart';
 //import 'Screens/coffee_screen.dart';
 //import 'Screens/clean_screen.dart';
 
@@ -59,10 +59,10 @@ class HomeScreen extends StatelessWidget {
                     case 'Nap':
                       targetScreen = NapStartScreen();
                       break;
-                    /*case 'Vent':
-                      targetScreen = VentScreen();
+                    case 'Air':
+                      targetScreen = AirStartScreen();
                       break;
-                    case 'Coffee':
+                  /*case 'Coffee':
                       targetScreen = CoffeeScreen();
                       break;
                     case 'Food':
