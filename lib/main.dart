@@ -1,120 +1,114 @@
 import 'package:flutter/material.dart';
-import 'Screens/biosignal_notification_screen.dart'; // Importiert die Startscreen-Datei
-import 'Screens/yogascreens.dart'; // Importiert die Datei YogaScreens
-import 'Screens/clean_prompt_screen.dart'; // Importiert den CleanPromptScreen
+import 'Screens/setup_screen.dart';
+import 'Screens/home_screen.dart';
+import 'package:is_first_run/is_first_run.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(EISApp());
+void main() async {
+  // Ensure widgets are initialized before running the app
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Load saved theme preference
+  final prefs = await SharedPreferences.getInstance();
+  final bool isDarkMode = prefs.getBool('isDarkMode') ?? false;
+  final Color buttonColor = Color(prefs.getInt('buttonColor') ?? 0xFFFFC0CB);
+  final Color buttonTextColor = Color(prefs.getInt('buttonTextColor') ?? 0xFF4D2324);
+  final String screenSelection = prefs.getString('ScreenSelection') ?? 'Grid';
+
+  // Check if it's the first start
+  final bool firstStart = await IsFirstRun.isFirstRun();
+
+  // Run the app
+  runApp(EISApp(firstStart: firstStart, isDarkMode: isDarkMode, buttonColor: buttonColor, buttonTextColor: buttonTextColor, screenSelection: screenSelection));
 }
 
-class EISApp extends StatelessWidget {
+class EISApp extends StatefulWidget {
+  final bool firstStart;
+  final bool isDarkMode;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final String screenSelection;
+
+  EISApp({required this.firstStart, required this.isDarkMode, required this.buttonColor, required this.buttonTextColor, required this.screenSelection});
+
+  @override
+  _EISAppState createState() => _EISAppState();
+}
+
+class _EISAppState extends State<EISApp> {
+  late bool _isDarkMode;
+  late Color _buttonColor;
+  late Color _buttonTextColor;
+  late String _screenSelection;
+
+  @override
+  void initState() {
+    super.initState();
+    _isDarkMode = widget.isDarkMode;
+    _buttonColor = widget.buttonColor;
+    _buttonTextColor = widget.buttonTextColor;
+    _screenSelection = widget.screenSelection;
+  }
+
+  void _updateTheme(bool isDarkMode) async {
+    // Save theme preference
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDarkMode', isDarkMode);
+
+    setState(() {
+      _isDarkMode = isDarkMode;
+    });
+  }
+
+  // Method to update button color and text color and save them to SharedPreferences
+  void _updateButtonColors(Color buttonColor, Color buttonTextColor) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Save colors as ARGB values
+    await prefs.setInt('buttonColor', buttonColor.value);
+    await prefs.setInt('buttonTextColor', buttonTextColor.value);
+
+    setState(() {
+      _buttonColor = buttonColor;
+      _buttonTextColor = buttonTextColor;
+    });
+  }
+
+  // Method to update button color and text color and save them to SharedPreferences
+  void _updateScreenSelection(String screenSelection) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Save colors as ARGB values
+    await prefs.setString('screenSelection', screenSelection);
+
+    setState(() {
+      _screenSelection = screenSelection;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'EIS App',
-      theme: ThemeData.dark(),
-      home: StartScreen(), // Startet mit der StartScreen-Seite
-    );
-  }
-}
-
-// Home Screen mit Haupt-Buttons und einem Kreis oben
-class HomeScreen extends StatelessWidget {
-  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Vent', 'Coffee', 'Clean'];
-
-  @override
-  Widget build(BuildContext context) {
-    // Berechne die Größe der Buttons basierend auf der Bildschirmbreite
-    double screenWidth = MediaQuery.of(context).size.width;
-    double buttonSize = (screenWidth - 80) / 3; // Subtrahiere Polster und Abstand
-
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          // Kleiner Kreis oben
-          Container(
-            margin: EdgeInsets.only(top: 10), // Abstand nach unten
-            width: 20, // Durchmesser des Kreises
-            height: 20,
-            decoration: BoxDecoration(
-              color: Color(0xFFFFC0CB), // Hellrosa Farbe
-              shape: BoxShape.circle,
-            ),
-          ),
-
-          // Abstand unterhalb des Kreises
-          SizedBox(height: 10),
-
-          // Grid mit runden Buttons
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 25,
-              mainAxisSpacing: 25,
-              padding: EdgeInsets.all(25),
-              children: categories.map((name) {
-                return RoundButton(
-                  label: name,
-                  size: buttonSize,
-                  onPressed: () {
-                    if (name == 'Clean') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CleaningPromptScreen(), // Verweis auf den CleanPromptScreen
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => YogaScreens(category: name), // Verweis auf YogaScreens
-                        ),
-                      );
-                    }
-                  },
-                );
-              }).toList(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Runder Button
-class RoundButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onPressed;
-  final double size;
-
-  const RoundButton({
-    super.key,
-    required this.label,
-    required this.onPressed,
-    required this.size,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: Color(0xFFFFC0CB),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(fontSize: size * 0.2, color: Color(0xFF4D2324)), // Schriftgröße anpassen
-            textAlign: TextAlign.center,
-          ),
-        ),
+      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      home: widget.firstStart
+          ? SetupScreen(
+        onThemeChanged: _updateTheme,
+        isDarkMode: _isDarkMode,
+        onButtonColorChanged: _updateButtonColors, // Pass button color callback
+        buttonColor: _buttonColor, // Pass the button color
+        buttonTextColor: _buttonTextColor, // Pass the button text color
+        onScreenSelectionChanged: _updateScreenSelection,
+        screenSelection: _screenSelection,
+      )
+          : HomeScreen(
+        onThemeChanged: _updateTheme,
+        isDarkMode: _isDarkMode,
+        onButtonColorChanged: _updateButtonColors, // Pass button color callback
+        buttonColor: _buttonColor, // Pass the button color
+        buttonTextColor: _buttonTextColor, // Pass the button text color
+        onScreenSelectionChanged: _updateScreenSelection,
+        screenSelection: _screenSelection,
       ),
     );
   }
