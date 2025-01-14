@@ -19,7 +19,7 @@ class SelectionScreen extends StatelessWidget {
 
   SelectionScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor, required this.onScreenSelectionChanged, required this.screenSelection});
 
-  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Air', 'Coffee', 'Clean'];
+  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Vent', 'Coffee', 'Clean'];
 
   @override
   Widget build(BuildContext context) {
