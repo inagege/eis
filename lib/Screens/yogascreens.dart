@@ -30,7 +30,7 @@ class _YogaScreensState extends State<YogaScreens> {
   final List<Map<String, dynamic>> screens = [
     {
       'title': 'Ready to start?',
-      'description': 'Ready for 5 Minutes Yoga?',
+      'description': '5 exercises each 60 seconds!',
       'buttonText': 'Start Session!',
       'imageWidth': 85.0,
       'imageHeight': 40.0,
