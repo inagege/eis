@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'startscreen.dart'; // Importiert die Startscreen-Datei
-import 'yogascreens.dart'; // Importiert die Datei YogaScreens
-import 'clean_prompt_screen.dart'; // Importiert den CleanPromptScreen
+import 'Screens/biosignal_notification_screen.dart'; // Importiert die Startscreen-Datei
+import 'Screens/yogascreens.dart'; // Importiert die Datei YogaScreens
+import 'Screens/clean_prompt_screen.dart'; // Importiert den CleanPromptScreen
 
 void main() {
   runApp(EISApp());

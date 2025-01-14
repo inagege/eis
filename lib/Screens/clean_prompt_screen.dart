@@ -1,4 +1,4 @@
-import 'package:eis/clean_video.dart';
+import 'clean_video.dart';
 import 'package:flutter/material.dart';
 
 class CleaningPromptScreen extends StatelessWidget {
