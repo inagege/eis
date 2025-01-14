@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class YogaScreens extends StatefulWidget {
-  final String category;
+  final Function(bool) onThemeChanged;
+  final bool isDarkMode;
+  final Function(Color, Color) onButtonColorChanged;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
 
-  const YogaScreens({super.key, required this.category});
+  YogaScreens({
+    required this.onThemeChanged,
+    required this.isDarkMode,
+    required this.onButtonColorChanged,
+    required this.buttonColor,
+    required this.buttonTextColor,
+    required this.onScreenSelectionChanged,
+    required this.screenSelection,
+  });
 
   @override
   _YogaScreensState createState() => _YogaScreensState();
@@ -11,205 +26,156 @@ class YogaScreens extends StatefulWidget {
 
 class _YogaScreensState extends State<YogaScreens> {
   int currentIndex = 0;
+  Timer? timer;
+  final List<Map<String, dynamic>> screens = [
+    {
+      'title': 'Ready to start?',
+      'description': 'Ready for 5 Minutes Yoga?',
+      'buttonText': 'Start Session!',
+      'imageWidth': 85.0,
+      'imageHeight': 40.0,
+    },
+    {
+      'title': 'Yoga 1/5',
+      'buttonText': 'Next',
+      'image': 'assets/images/yoga1.png',
+      'imageWidth': 100.0,
+      'imageHeight': 50.0,
+    },
 
-  final Map<String, List<Map<String, String>>> mockupScreens = {
-    'Yoga': [
-      {
-        'title': 'Ready to start?',
-        'description': 'Ready for a 5 Minute Yoga Session?',
-        'image': 'assets/images/yogaicon.png',
-        'buttonText': 'Start Session!',
-      },
-      {
-        'title': 'Yoga 1/5',
-        'description': '60 Seconds',
-        'image': 'assets/images/yoga1.png',
-        'buttonText': 'Next',
-        'imageWidth': '85',
-        'imageHeight': '40',
-      },
-      {
-        'title': 'Yoga 2/5',
-        'description': '60 Seconds',
-        'image': 'assets/images/yoga2.png',
-        'buttonText': 'Next',
-        'imageWidth': '150',
-        'imageHeight': '35',
-      },
-      {
-        'title': 'Yoga 3/5',
-        'description': '60 Seconds',
-        'image': 'assets/images/yoga3.png',
-        'buttonText': 'Next',
-        'imageWidth': '105',
-        'imageHeight': '40',
-      },
-      {
-        'title': 'Yoga 4/5',
-        'description': '60 Seconds',
-        'image': 'assets/images/yoga4.png',
-        'buttonText': 'Next',
-        'imageWidth': '64',
-        'imageHeight': '40',
-      },
-      {
-        'title': 'Yoga 5/5',
-        'description': '60 Seconds.',
-        'image': 'assets/images/yoga5.png',
-        'buttonText': 'Next',
-        'imageWidth': '66',
-        'imageHeight': '40',
-      },
-      {
-        'title': 'Well done!',
-        'description': 'You have completed the Yoga session.',
-        'image': 'assets/images/yogaicon.png',
-        'buttonText': 'End',
-      },
-    ],
-    'Walk': [
-      {'title': 'Lets go!', 'description': '', 'image': ''},
-      {'title': 'Midway Check', 'description': '', 'image': ''},
-      {'title': 'Almost there', 'description': '', 'image': ''},
-      {'title': 'Done!', 'description': '', 'image': ''},
-    ],
-    'Nap': [
-      {'title': 'Time to relax', 'description': '', 'image': ''},
-      {'title': 'Close your eyes', 'description': '', 'image': ''},
-      {'title': 'Done!', 'description': '', 'image': ''},
-    ],
-    'Vent': [
-      {'title': 'Share your thoughts', 'description': '', 'image': ''},
-      {'title': 'All set', 'description': '', 'image': ''},
-    ],
-    'Coffee': [
-      {'title': 'Enjoy a coffee break', 'description': '', 'image': ''},
-    ],
-    'Food': [
-      {'title': 'Enjoy some food', 'description': '', 'image': ''},
-    ]
-  };
+    {
+      'title': 'Yoga 2/5',
+      'image': 'assets/images/yoga2.png',
+      'buttonText': 'Next',
+      'imageWidth': 100.0,
+      'imageHeight':50.0,
+    },
+    {
+      'title': 'Yoga 3/5',
+      'image': 'assets/images/yoga3.png',
+      'buttonText': 'Next',
+      'imageWidth': 100.0,
+      'imageHeight': 50.0,
+    },
+    {
+      'title': 'Yoga 4/5',
+      'image': 'assets/images/yoga4.png',
+      'buttonText': 'Next',
+      'imageWidth': 100.0,
+      'imageHeight': 50.0,
+    },
+    {
+      'title': 'Yoga 5/5',
+      'image': 'assets/images/yoga5.png',
+      'buttonText': 'Next',
+      'imageWidth': 100.0,
+      'imageHeight': 50.0,
+    },
+
+    {
+      'title': 'Well done!',
+      'description': 'Yoga session completed',
+      'buttonText': 'Back to Home',
+      'imageWidth': 66.0,
+      'imageHeight': 40.0,
+    },
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    checkForDescription();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void checkForDescription() {
+    if (screens[currentIndex]['description'] == null) {
+      timer = Timer(Duration(seconds: 60), () {
+        if (currentIndex < screens.length - 1) {
+          setState(() {
+            currentIndex++;
+            checkForDescription(); // Check description again for the new screen
+          });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> screens = mockupScreens[widget.category] ??
-        [
-          {'title': 'Screen', 'description': '', 'image': ''}
-        ];
-
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 10),
-                if (currentIndex == 0 || currentIndex == screens.length - 1)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 20.0),
-                    child: Text(
-                      screens[currentIndex]['description'] ?? '',
-                      style: TextStyle(fontSize: 13, color: Color(0xFFD3D3D3)),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                else if (screens[currentIndex]['image'] != null &&
-                    screens[currentIndex]['image']!.isNotEmpty)
-                  Column(
-                    children: [
-                      Image.asset(
-                        screens[currentIndex]['image']!,
-                        width: double.parse(
-                            screens[currentIndex]['imageWidth'] ?? '20'),
-                        height: double.parse(
-                            screens[currentIndex]['imageHeight'] ?? '20'),
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: Text(
-                          screens[currentIndex]['description'] ?? '',
-                          style: TextStyle(fontSize: 13, color: Color(0xFFD3D3D3)),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
-
-          Positioned(
-            top: 10,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFC0CB),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/yogaicon.png',
-                    height: 20,
-                    width: 20,
-                  ),
-                ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                color: widget.buttonColor,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Image.asset(
+                  'assets/images/yogaicon.png',
+                  width: 15.0, // Adjust the size as needed
+                  height: 15.0, // Adjust the size as needed
+                  fit: BoxFit.contain, // Ensures the image fits within the container without distortion
+              ),
               ),
             ),
-          ),
-
-          Positioned(
-            top: 45,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Text(
-                screens[currentIndex]['title']!,
+            if (screens[currentIndex]['image'] != null)
+              SizedBox(height: 30
+              ),
+            if (screens[currentIndex]['image'] != null)
+              Image.asset(
+                screens[currentIndex]['image'],
+                width: screens[currentIndex]['imageWidth'],
+                height: screens[currentIndex]['imageHeight'],
+              ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: screens[currentIndex].containsKey('description') ?
+              Text(
+                screens[currentIndex]['description'],
                 style: TextStyle(
-                  fontSize: 15,
-                  color: Color(0xFFD3D3D3),
+                  fontSize: 24,
+                  color: widget.isDarkMode ? widget.buttonColor : widget.buttonTextColor,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
-              ),
+              ) : Container(),
             ),
-          ),
-
-          Positioned(
-            bottom: 10,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFD3D3D3),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7.5),
-                ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 170, // <-- match_parent
+              height: 50, // <-- match-parent
+              child:
+              ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: widget.buttonColor),
                 onPressed: () {
-                  if (currentIndex < screens.length - 1) {
-                    setState(() {
+                  setState(() {
+                    if (currentIndex < screens.length - 1) {
                       currentIndex++;
-                    });
-                  } else {
-                    Navigator.of(context).pop();
-                  }
+                      checkForDescription();
+                    } else {
+                      Navigator.popUntil(context, ModalRoute.withName('/'));
+                    }
+                  });
                 },
                 child: Text(
-                  currentIndex == screens.length - 1 ? 'Done' : 'Next',
-                  style: TextStyle(fontSize: 12, color: Color(0xFF4D2324)),
+                  screens[currentIndex]['buttonText'],
+                  style: TextStyle(color: widget.buttonTextColor, fontSize: 18),
                 ),
               ),
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

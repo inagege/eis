@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 //Todo: Hier könnt ihr eure Screens auskommentieren, dann unten im switch case noch passenden Screen auskommentieren
-//import 'Screens/yoga_screen.dart';
-//import 'Screens/walk_screen.dart';
-//import 'Screens/nap_screen.dart';
-//import 'Screens/air_screen.dart';
+import 'yogascreens.dart';
+//import 'walk_screen.dart';
+//import 'nap_screen.dart';
+//import 'air_screen.dart';
 import 'CoffeeScreen.dart';
-//import 'Screens/clean_screen.dart';
+import 'CleaningScreen.dart';
 
 // Home Screen with Main Round Buttons and Circle on Top
 class SelectionScreen extends StatelessWidget {
@@ -65,22 +65,22 @@ class SelectionScreen extends StatelessWidget {
                   Widget targetScreen;
                   switch (name) {
                   //Todo: Screen auskommentieren
-                  /*case 'Yoga':
-                        targetScreen = YogaScreen(onThemeChanged: onThemeChanged,
+                  case 'Yoga':
+                        targetScreen = YogaScreens(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
                           buttonTextColor: buttonTextColor,
-                          onSelectionScreenChanged: onSelectionScreenChanged,
+                          onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
-                      case 'Walk':
+                  /*case 'Walk':
                         targetScreen = WalkScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
                           buttonTextColor: buttonTextColor,
-                          onSelectionScreenChanged: onSelectionScreenChanged,
+                          onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
                       case 'Nap':
@@ -89,7 +89,7 @@ class SelectionScreen extends StatelessWidget {
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
                           buttonTextColor: buttonTextColor,
-                          onSelectionScreenChanged: onSelectionScreenChanged,
+                          onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
                       case 'Vent':
@@ -98,7 +98,7 @@ class SelectionScreen extends StatelessWidget {
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
                           buttonTextColor: buttonTextColor,
-                          onSelectionScreenChanged: onSelectionScreenChanged,
+                          onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
                         */
@@ -112,15 +112,15 @@ class SelectionScreen extends StatelessWidget {
                           onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
-                      /*
                       case 'Clean':
-                        targetScreen = CleanScreen(onThemeChanged: onThemeChanged,
+                        targetScreen = CleaningPromptScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
                           buttonTextColor: buttonTextColor,
-                          onSelectionScreenChanged: onSelectionScreenChanged,
-                          screenSelection: screenSelection,);*/
+                          onScreenSelectionChanged: onScreenSelectionChanged,
+                          screenSelection: screenSelection,);
+                        break;
                     default:
                       targetScreen = SelectionScreen(onThemeChanged: onThemeChanged,
                         isDarkMode: isDarkMode,
