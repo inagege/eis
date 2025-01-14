@@ -103,7 +103,7 @@ class SelectionScreen extends StatelessWidget {
                         break;
                         */
                       case 'Coffee':
-                        targetScreen = CoffeeApp(
+                        targetScreen = CoffeePromptScreen(
                         onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,

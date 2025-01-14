@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'selection_screen.dart';
 import 'settings_screen.dart';
 import 'selection_swipe_screen.dart';
-import 'CoffeeScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function(bool) onThemeChanged;
@@ -77,8 +76,8 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 10),
             // Settings Button (Smaller)
             ElevatedButton(
               onPressed: () => navigateToSettings(context),
@@ -106,25 +105,24 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: buttonColor,
+                color: isDarkMode ? buttonColor : buttonTextColor,
               ),
             ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () => navigateBasedOnSelection(screenSelection, context),
-              child: Text(
-                'Start Session',
-                style: TextStyle(color: buttonTextColor, fontSize: 18),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: buttonColor,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 160, // <-- match_parent
+              height: 50, // <-- match-parent
+              child:
+              ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
+                onPressed: () => navigateBasedOnSelection(screenSelection, context),
+                child: Text(
+                  'Start Session',
+                  style: TextStyle(
+                      color: buttonTextColor,
+                      fontSize: 18),
                 ),
               ),
             ),
-            SizedBox(height: 40),
           ],
         ),
       ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 //import 'Screens/walk_screen.dart';
 //import 'Screens/nap_screen.dart';
 //import 'Screens/Vent_screen.dart';
-//import 'Screens/coffee_screen.dart';
+import 'CoffeeScreen.dart';
 //import 'Screens/clean_screen.dart';
 
 // Home Screen with Activity Slides and Icons
@@ -102,15 +102,6 @@ class SelectionSwipeScreen extends StatelessWidget {
                           onSelectionScreenChanged: onSelectionScreenChanged,
                           screenSelection: screenSelection,);
                         break;
-                      case 'Coffee':
-                        targetScreen = CoffeeScreen(onThemeChanged: onThemeChanged,
-                          isDarkMode: isDarkMode,
-                          onButtonColorChanged: onButtonColorChanged,
-                          buttonColor: buttonColor,
-                          buttonTextColor: buttonTextColor,
-                          onSelectionScreenChanged: onSelectionScreenChanged,
-                          screenSelection: screenSelection,);
-                        break;
                       case 'Clean':
                         targetScreen = CleanScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
@@ -119,6 +110,15 @@ class SelectionSwipeScreen extends StatelessWidget {
                           buttonTextColor: buttonTextColor,
                           onSelectionScreenChanged: onSelectionScreenChanged,
                           screenSelection: screenSelection,);*/
+                      case 'Coffee':
+                        targetScreen = CoffeePromptScreen(onThemeChanged: onThemeChanged,
+                          isDarkMode: isDarkMode,
+                          onButtonColorChanged: onButtonColorChanged,
+                          buttonColor: buttonColor,
+                          buttonTextColor: buttonTextColor,
+                          onScreenSelectionChanged: onScreenSelectionChanged,
+                          screenSelection: screenSelection,);
+                        break;
                       default:
                         targetScreen = SelectionSwipeScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
