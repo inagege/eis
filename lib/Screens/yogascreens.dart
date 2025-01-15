@@ -27,6 +27,8 @@ class YogaScreens extends StatefulWidget {
 class _YogaScreensState extends State<YogaScreens> {
   int currentIndex = 0;
   Timer? timer;
+  int remainingTime = 60;  // Initial countdown time in seconds
+
   final List<Map<String, dynamic>> screens = [
     {
       'title': 'Ready to start?',
@@ -42,7 +44,6 @@ class _YogaScreensState extends State<YogaScreens> {
       'imageWidth': 100.0,
       'imageHeight': 50.0,
     },
-
     {
       'title': 'Yoga 2/5',
       'image': 'assets/images/yoga2.png',
@@ -71,7 +72,6 @@ class _YogaScreensState extends State<YogaScreens> {
       'imageWidth': 100.0,
       'imageHeight': 50.0,
     },
-
     {
       'title': 'Well done!',
       'description': 'Yoga session completed',
@@ -81,10 +81,6 @@ class _YogaScreensState extends State<YogaScreens> {
     },
   ];
 
-  int currentIndex = 0;
-  Timer? timer;
-  int remainingTime = 60;  // Initial countdown time in seconds
-
   @override
   void initState() {
     super.initState();
@@ -92,8 +88,9 @@ class _YogaScreensState extends State<YogaScreens> {
   }
 
   void startTimer() {
+    timer?.cancel();  // Ensure to cancel existing timer
     remainingTime = 60;  // Reset timer for each exercise
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       if (remainingTime > 0) {
         setState(() {
           remainingTime--;
@@ -114,20 +111,11 @@ class _YogaScreensState extends State<YogaScreens> {
     }
   }
 
-  void checkForDescription() {
-    if (screens[currentIndex]['description'] == null) {
-      timer = Timer(Duration(seconds: 60), () {
-        if (currentIndex < screens.length - 1) {
-          setState(() {
-            currentIndex++;
-            checkForDescription(); // Check description again for the new screen
-          });
-        }
-      });
-    }
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -146,12 +134,14 @@ class _YogaScreensState extends State<YogaScreens> {
               child: Center(
                 child: Image.asset(
                   'assets/images/yogaicon.png',
-                  width: 15.0, // Adjust the size as needed
-                  height: 15.0, // Adjust the size as needed
-                  fit: BoxFit.contain, // Ensures the image fits within the container without distortion
-              ),
+                  width: 15.0,
+                  height: 15.0,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
+            if (screens[currentIndex]['image'] == null)
+              SizedBox(height: 20),
             if (screens[currentIndex]['image'] != null)
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
@@ -161,8 +151,7 @@ class _YogaScreensState extends State<YogaScreens> {
                 ),
               ),
             if (screens[currentIndex]['image'] != null)
-              SizedBox(height: 10
-              ),
+              SizedBox(height: 10),
             if (screens[currentIndex]['image'] != null)
               Image.asset(
                 screens[currentIndex]['image'],
@@ -170,9 +159,6 @@ class _YogaScreensState extends State<YogaScreens> {
                 height: screens[currentIndex]['imageHeight'],
               ),
             SizedBox(height: 10),
-            if (hasDescription)
-              SizedBox(height: 10), // Adjust spacing if image is shown
-            SizedBox(height: 07),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: screens[currentIndex].containsKey('description') ?
@@ -188,19 +174,19 @@ class _YogaScreensState extends State<YogaScreens> {
             ),
             SizedBox(height: 10),
             SizedBox(
-              width: 170, // <-- match_parent
-              height: 50, // <-- match-parent
-              child:
-              ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: widget.buttonColor),
+              width: 170,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: widget.buttonColor),
                 onPressed: () {
-                  setState(() {
-                    if (currentIndex < screens.length - 1) {
+                  if (currentIndex < screens.length - 1) {
+                    setState(() {
                       currentIndex++;
-                      checkForDescription();
-                    } else {
-                      Navigator.popUntil(context, ModalRoute.withName('/'));
-                    }
-                  });
+                      startTimer();  // Ensure timer starts with the new screen
+                    });
+                  } else {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  }
                 },
                 child: Text(
                   screens[currentIndex]['buttonText'],
