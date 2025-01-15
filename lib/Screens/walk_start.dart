@@ -2,28 +2,49 @@ import 'package:flutter/material.dart';
 import 'walk_screen.dart';
 
 class WalkStartScreen extends StatelessWidget {
-  const WalkStartScreen({Key? key}) : super(key: key);
+  final Function(bool) onThemeChanged;
+  final bool isDarkMode;
+  final Function(Color, Color) onButtonColorChanged;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
+
+  WalkStartScreen({
+    required this.onThemeChanged,
+    required this.isDarkMode,
+    required this.onButtonColorChanged,
+    required this.buttonColor,
+    required this.buttonTextColor,
+    required this.onScreenSelectionChanged,
+    required this.screenSelection,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Sets the background color of the entire screen to black
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           children: [
-            // Punkt oben wie in den anderen Screens
+            // Adjusted small circle at the top of the screen
             Container(
-              margin: const EdgeInsets.only(top: 10), // Gleiche Positionierung wie in anderen Screens
-              width: 20, // Gleiche Größe wie in anderen Screens
+              margin: EdgeInsets.only(top: 10),
+              width: 20,
               height: 20,
-              decoration: const BoxDecoration(
-                color: Color(0xFFFFC0CB), // Gleiche Farbe wie in anderen Screens
+              decoration: BoxDecoration(
+                color: buttonColor,
                 shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.directions_walk,
+                  color: buttonTextColor,
+                  size: 15.0,
+                ),
               ),
             ),
 
-            const SizedBox(height: 5), // Abstand wie in anderen Screens
+            SizedBox(height: 10),
 
             // Inhalt des WalkStartScreens
             Expanded(
@@ -31,57 +52,51 @@ class WalkStartScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Text
-                      const Text(
+                      Text(
                         'Ready to take a 5 minute walk?',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 18,
+                          color: isDarkMode ? buttonColor : buttonTextColor,
+                          fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
                       ),
 
-                      const SizedBox(height: 8),
+                      SizedBox(height: 10),
 
-                      // Bild
-                      Image.asset(
-                        'assets/walk_image.png',
-                        width: 50,
-                        height: 50,
+                      Icon(
+                        Icons.directions_walk,
+                        color: isDarkMode ? buttonColor : buttonTextColor,
+                        size: 50.0,
                       ),
 
                       const SizedBox(height: 12),
 
-                      // Button
                       SizedBox(
-                        height: 48,
-                        width: 120,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                          ),
+                        width: 140, // <-- match_parent
+                        height: 50, // <-- match-parent
+                        child:
+                        ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const WalkScreen(),
+                                builder: (context) => WalkScreen(onThemeChanged: onThemeChanged,
+                                  isDarkMode: isDarkMode,
+                                  onButtonColorChanged: onButtonColorChanged,
+                                  buttonColor: buttonColor,
+                                  buttonTextColor: buttonTextColor,
+                                  onScreenSelectionChanged: onScreenSelectionChanged,
+                                  screenSelection: screenSelection,),
                               ),
                             );
                           },
-                          child: const Text(
+                          child: Text(
                             'Start Walk',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: buttonTextColor, fontSize: 18),
                           ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

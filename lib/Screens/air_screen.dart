@@ -3,15 +3,31 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 
 class AirScreen extends StatefulWidget {
-  const AirScreen({Key? key}) : super(key: key);
+  final Function(bool) onThemeChanged;
+  final bool isDarkMode;
+  final Function(Color, Color) onButtonColorChanged;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
+
+  AirScreen({
+    required this.onThemeChanged,
+    required this.isDarkMode,
+    required this.onButtonColorChanged,
+    required this.buttonColor,
+    required this.buttonTextColor,
+    required this.onScreenSelectionChanged,
+    required this.screenSelection,
+  });
 
   @override
   _AirScreenState createState() => _AirScreenState();
 }
 
 class _AirScreenState extends State<AirScreen> {
-  static const int _airDurationSeconds = 1 * 60;
-  int _remainingSeconds = _airDurationSeconds;
+  static const int _AirDurationSeconds = 5 * 60;
+  int _remainingSeconds = _AirDurationSeconds;
   Timer? _timer;
 
   @override
@@ -57,7 +73,7 @@ class _AirScreenState extends State<AirScreen> {
         ),
         title: Center(
           child: Text(
-            'Time to wake up!',
+            'Windows are closed again',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
@@ -67,10 +83,16 @@ class _AirScreenState extends State<AirScreen> {
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => HomeScreen(onThemeChanged: widget.onThemeChanged,
+                    isDarkMode: widget.isDarkMode,
+                    onButtonColorChanged: widget.onButtonColorChanged,
+                    buttonColor: widget.buttonColor,
+                    buttonTextColor: widget.buttonTextColor,
+                    onScreenSelectionChanged: widget.onScreenSelectionChanged,
+                    screenSelection: widget.screenSelection),),
               );
             },
-            child: const Text('OK'),
+            child: const Text('Back To Home'),
           ),
         ],
       ),
@@ -83,7 +105,6 @@ class _AirScreenState extends State<AirScreen> {
     final int seconds = _remainingSeconds % 60;
 
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -91,27 +112,36 @@ class _AirScreenState extends State<AirScreen> {
             children: [
               // Adjusted small circle at the top of the screen
               Container(
-                margin: const EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 10),
                 width: 20,
                 height: 20,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFC0CB),
+                decoration: BoxDecoration(
+                  color: widget.buttonColor,
                   shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.air,
+                    color: widget.buttonTextColor,
+                    size: 15.0,
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               Text(
-                'Time remaining: \n${minutes.toString().padLeft(2, '0')}:'
+                'Time left: ${minutes.toString().padLeft(2, '0')}:'
                     '${seconds.toString().padLeft(2, '0')}',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
-                  color: Colors.white,
+                  color: widget.isDarkMode ? widget.buttonColor : widget.buttonTextColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
+              SizedBox(height: 10),
 
               //const Spacer(),
 // Bild
@@ -119,32 +149,37 @@ class _AirScreenState extends State<AirScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
                 child: Image.asset(
                   'assets/air_animation.gif',
-                  width: 145,
-                  height: 85,
+                  width: 125,
+                  height: 75,
                 ),
               ),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.only(bottom: 0.0),
                 child: Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                    child: SizedBox(
+                      width: 170, // <-- match_parent
+                      height: 50, // <-- match-parent
+                      child:
+                      ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: widget.buttonColor),
+                        onPressed: () {
+                          _timer?.cancel();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => HomeScreen(onThemeChanged: widget.onThemeChanged,
+                                isDarkMode: widget.isDarkMode,
+                                onButtonColorChanged: widget.onButtonColorChanged,
+                                buttonColor: widget.buttonColor,
+                                buttonTextColor: widget.buttonTextColor,
+                                onScreenSelectionChanged: widget.onScreenSelectionChanged,
+                                screenSelection: widget.screenSelection)),
+                          );
+                        },
+                        child: Text(
+                          'Back to Home',
+                          style: TextStyle(color: widget.buttonTextColor, fontSize: 18),
+                        ),
                       ),
-                      minimumSize: const Size(120, 48),
-                    ),
-                    onPressed: () {
-                      _timer?.cancel();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
-                    },
-                    child: const Text(
-                      'End',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                  ),
+                    )
                 ),
               ),
             ],

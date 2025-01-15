@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-//Todo: Hier könnt ihr eure Screens auskommentieren, dann unten im switch case noch passenden Screen auskommentieren
 import 'yogascreens.dart';
-//import 'walk_screen.dart';
-//import 'nap_screen.dart';
-//import 'air_screen.dart';
+import 'walk_start.dart';
+import 'nap_start.dart';
+import 'air_start.dart';
 import 'CoffeeScreen.dart';
 import 'CleaningScreen.dart';
 
@@ -64,8 +63,7 @@ class SelectionScreen extends StatelessWidget {
                 onPressed: () {
                   Widget targetScreen;
                   switch (name) {
-                  //Todo: Screen auskommentieren
-                  case 'Yoga':
+                      case 'Yoga':
                         targetScreen = YogaScreens(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
@@ -74,8 +72,8 @@ class SelectionScreen extends StatelessWidget {
                           onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
-                  /*case 'Walk':
-                        targetScreen = WalkScreen(onThemeChanged: onThemeChanged,
+                      case 'Walk':
+                        targetScreen = WalkStartScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
@@ -84,7 +82,7 @@ class SelectionScreen extends StatelessWidget {
                           screenSelection: screenSelection,);
                         break;
                       case 'Nap':
-                        targetScreen = NapScreen(onThemeChanged: onThemeChanged,
+                        targetScreen = NapStartScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
@@ -93,7 +91,7 @@ class SelectionScreen extends StatelessWidget {
                           screenSelection: screenSelection,);
                         break;
                       case 'Vent':
-                        targetScreen = VentScreen(onThemeChanged: onThemeChanged,
+                        targetScreen = AirStartScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
@@ -101,7 +99,6 @@ class SelectionScreen extends StatelessWidget {
                           onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
-                        */
                       case 'Coffee':
                         targetScreen = CoffeePromptScreen(
                         onThemeChanged: onThemeChanged,

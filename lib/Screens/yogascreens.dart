@@ -25,8 +25,6 @@ class YogaScreens extends StatefulWidget {
 }
 
 class _YogaScreensState extends State<YogaScreens> {
-  int currentIndex = 0;
-  Timer? timer;
   final List<Map<String, dynamic>> screens = [
     {
       'title': 'Ready to start?',
@@ -81,16 +79,37 @@ class _YogaScreensState extends State<YogaScreens> {
     },
   ];
 
+  int currentIndex = 0;
+  Timer? timer;
+  int remainingTime = 60;  // Initial countdown time in seconds
+
   @override
   void initState() {
     super.initState();
-    checkForDescription();
+    startTimer();
   }
 
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
+  void startTimer() {
+    remainingTime = 60;  // Reset timer for each exercise
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (remainingTime > 0) {
+        setState(() {
+          remainingTime--;
+        });
+      } else {
+        timer.cancel();
+        moveToNextScreen();
+      }
+    });
+  }
+
+  void moveToNextScreen() {
+    if (currentIndex < screens.length - 1) {
+      setState(() {
+        currentIndex++;
+        startTimer(); // Restart timer for the next screen
+      });
+    }
   }
 
   void checkForDescription() {
@@ -105,6 +124,8 @@ class _YogaScreensState extends State<YogaScreens> {
       });
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +151,15 @@ class _YogaScreensState extends State<YogaScreens> {
               ),
             ),
             if (screens[currentIndex]['image'] != null)
-              SizedBox(height: 30
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  '$remainingTime seconds',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            if (screens[currentIndex]['image'] != null)
+              SizedBox(height: 10
               ),
             if (screens[currentIndex]['image'] != null)
               Image.asset(
@@ -138,7 +167,7 @@ class _YogaScreensState extends State<YogaScreens> {
                 width: screens[currentIndex]['imageWidth'],
                 height: screens[currentIndex]['imageHeight'],
               ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: screens[currentIndex].containsKey('description') ?
@@ -152,7 +181,7 @@ class _YogaScreensState extends State<YogaScreens> {
                 textAlign: TextAlign.center,
               ) : Container(),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             SizedBox(
               width: 170, // <-- match_parent
               height: 50, // <-- match-parent

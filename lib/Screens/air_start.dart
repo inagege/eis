@@ -1,90 +1,102 @@
 import 'package:flutter/material.dart';
-import 'air_screen.dart';
+import 'Air_screen.dart';
 
 class AirStartScreen extends StatelessWidget {
-  const AirStartScreen({Key? key}) : super(key: key);
+  final Function(bool) onThemeChanged;
+  final bool isDarkMode;
+  final Function(Color, Color) onButtonColorChanged;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
+
+  AirStartScreen({
+    required this.onThemeChanged,
+    required this.isDarkMode,
+    required this.onButtonColorChanged,
+    required this.buttonColor,
+    required this.buttonTextColor,
+    required this.onScreenSelectionChanged,
+    required this.screenSelection,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           children: [
-            // Punkt oben wie im HomeScreen
+            // Adjusted small circle at the top of the screen
             Container(
-              margin: const EdgeInsets.only(top: 10),
-              width: 20, // Gleiche Größe wie im HomeScreen
+              margin: EdgeInsets.only(top: 10),
+              width: 20,
               height: 20,
-              decoration: const BoxDecoration(
-                color: Color(0xFFFFC0CB), // Gleiche Farbe wie im HomeScreen
+              decoration: BoxDecoration(
+                color: buttonColor,
                 shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.air,
+                  color: buttonTextColor,
+                  size: 15.0,
+                ),
               ),
             ),
 
-            const SizedBox(height: 5), // Spacing unter dem Punkt
+            SizedBox(height: 10),
 
-            // Hauptinhalt des Screens
+            // Inhalt des AirStartScreens
             Expanded(
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    //AxisAlignment: MainAxisAlignment.center,
-                    //mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Entfernt: Der alte Punkt (40x40 Kreis) wurde gelöscht.
-
-                      // Text für die Aufforderung
-                      const Text(
-                        'Should I open the windows for you?',
+                      Text(
+                        'Should I open the window for you?',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 18,
+                          color: isDarkMode ? buttonColor : buttonTextColor,
+                          fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                     // const SizedBox(height: 0),
 
-                      // Bild
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-                        child: Image.asset(
-                          'assets/air_animation.gif',
-                          width: 145,
-                          height: 100,
-                        ),
+                      SizedBox(height: 10),
+
+                      Icon(
+                        Icons.air,
+                        color: isDarkMode ? buttonColor : buttonTextColor,
+                        size: 50.0,
                       ),
 
-                      //const SizedBox(height: 0),
+                      const SizedBox(height: 12),
 
-                      // Start Air Button
                       SizedBox(
-                        height: 48,
-                        width: 120,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                          ),
+                        width: 120, // <-- match_parent
+                        height: 50, // <-- match-parent
+                        child:
+                        ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const AirScreen(),
+                                builder: (context) => AirScreen(onThemeChanged: onThemeChanged,
+                                  isDarkMode: isDarkMode,
+                                  onButtonColorChanged: onButtonColorChanged,
+                                  buttonColor: buttonColor,
+                                  buttonTextColor: buttonTextColor,
+                                  onScreenSelectionChanged: onScreenSelectionChanged,
+                                  screenSelection: screenSelection,),
                               ),
                             );
                           },
-                          child: const Text(
-                            'Start Venting',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
+                          child: Text(
+                            'Yes!',
+                            style: TextStyle(color: buttonTextColor, fontSize: 18),
                           ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

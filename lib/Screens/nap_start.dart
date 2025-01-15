@@ -1,86 +1,102 @@
 import 'package:flutter/material.dart';
-import 'nap_screen.dart';
+import 'Nap_screen.dart';
 
 class NapStartScreen extends StatelessWidget {
-  const NapStartScreen({Key? key}) : super(key: key);
+  final Function(bool) onThemeChanged;
+  final bool isDarkMode;
+  final Function(Color, Color) onButtonColorChanged;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
+
+  NapStartScreen({
+    required this.onThemeChanged,
+    required this.isDarkMode,
+    required this.onButtonColorChanged,
+    required this.buttonColor,
+    required this.buttonTextColor,
+    required this.onScreenSelectionChanged,
+    required this.screenSelection,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           children: [
-            // Punkt oben wie im HomeScreen
+            // Adjusted small circle at the top of the screen
             Container(
-              margin: const EdgeInsets.only(top: 10),
-              width: 20, // Gleiche Größe wie im HomeScreen
+              margin: EdgeInsets.only(top: 10),
+              width: 20,
               height: 20,
-              decoration: const BoxDecoration(
-                color: Color(0xFFFFC0CB), // Gleiche Farbe wie im HomeScreen
+              decoration: BoxDecoration(
+                color: buttonColor,
                 shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.bed,
+                  color: buttonTextColor,
+                  size: 15.0,
+                ),
               ),
             ),
 
-            const SizedBox(height: 5), // Spacing unter dem Punkt
+            SizedBox(height: 10),
 
-            // Hauptinhalt des Screens
+            // Inhalt des NapStartScreens
             Expanded(
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Entfernt: Der alte Punkt (40x40 Kreis) wurde gelöscht.
-
-                      // Text für die Aufforderung
-                      const Text(
+                      Text(
                         'Ready to take a 5 minute nap?',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 18,
+                          color: isDarkMode ? buttonColor : buttonTextColor,
+                          fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 8),
 
-                      // Bild
-                      Image.asset(
-                        'assets/nap_image.png',
-                        width: 50,
-                        height: 50,
+                      SizedBox(height: 10),
+
+                      Icon(
+                        Icons.bed,
+                        color: isDarkMode ? buttonColor : buttonTextColor,
+                        size: 50.0,
                       ),
+
                       const SizedBox(height: 12),
 
-                      // Start Nap Button
                       SizedBox(
-                        height: 48,
-                        width: 120,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                          ),
+                        width: 140, // <-- match_parent
+                        height: 50, // <-- match-parent
+                        child:
+                        ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const NapScreen(),
+                                builder: (context) => NapScreen(onThemeChanged: onThemeChanged,
+                                  isDarkMode: isDarkMode,
+                                  onButtonColorChanged: onButtonColorChanged,
+                                  buttonColor: buttonColor,
+                                  buttonTextColor: buttonTextColor,
+                                  onScreenSelectionChanged: onScreenSelectionChanged,
+                                  screenSelection: screenSelection,),
                               ),
                             );
                           },
-                          child: const Text(
+                          child: Text(
                             'Start Nap',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: buttonTextColor, fontSize: 18),
                           ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

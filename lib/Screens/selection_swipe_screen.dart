@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-//Todo: Hier könnt ihr eure Screens auskommentieren, dann unten im switch case noch passenden Screen auskommentieren
 import 'yogascreens.dart';
-//import 'walk_screen.dart';
-//import 'nap_screen.dart';
-//import 'Vent_screen.dart';
+import 'walk_start.dart';
+import 'nap_start.dart';
+import 'air_start.dart';
 import 'CoffeeScreen.dart';
 import 'CleaningScreen.dart';
 
@@ -18,7 +17,6 @@ class SelectionSwipeScreen extends StatelessWidget {
   final String screenSelection;
 
   SelectionSwipeScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor, required this.onScreenSelectionChanged, required this.screenSelection});
-
 
   final List<Map<String, dynamic>> activities = [
     {'name': 'Yoga', 'icon': Icons.self_improvement},
@@ -65,8 +63,7 @@ class SelectionSwipeScreen extends StatelessWidget {
                   onTap: () {
                     Widget targetScreen;
                     switch (activity['name']) {
-                    //Todo: Screen auskommentieren
-                    case 'Yoga':
+                      case 'Yoga':
                         targetScreen = YogaScreens(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
@@ -75,8 +72,8 @@ class SelectionSwipeScreen extends StatelessWidget {
                           onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
-                    /*case 'Walk':
-                        targetScreen = WalkScreen(onThemeChanged: onThemeChanged,
+                      case 'Walk':
+                        targetScreen = WalkStartScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
@@ -84,8 +81,8 @@ class SelectionSwipeScreen extends StatelessWidget {
                           onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
                         break;
-                      case 'Nap':
-                        targetScreen = NapScreen(onThemeChanged: onThemeChanged,
+                    case 'Nap':
+                        targetScreen = NapStartScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
@@ -94,14 +91,14 @@ class SelectionSwipeScreen extends StatelessWidget {
                           screenSelection: screenSelection,);
                         break;
                       case 'Vent':
-                        targetScreen = VentScreen(onThemeChanged: onThemeChanged,
+                        targetScreen = AirStartScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
                           onButtonColorChanged: onButtonColorChanged,
                           buttonColor: buttonColor,
                           buttonTextColor: buttonTextColor,
                           onScreenSelectionChanged: onScreenSelectionChanged,
                           screenSelection: screenSelection,);
-                        break;*/
+                        break;
                       case 'Clean':
                         targetScreen = CleaningPromptScreen(onThemeChanged: onThemeChanged,
                           isDarkMode: isDarkMode,
@@ -140,14 +137,14 @@ class SelectionSwipeScreen extends StatelessWidget {
                       Icon(
                         activity['icon'],
                         size: 100, // Adjust size as needed
-                        color: buttonColor,
+                        color: isDarkMode ? buttonColor : buttonTextColor,
                       ),
                       SizedBox(height: 10),
                       Text(
                         activity['name'],
                         style: TextStyle(
                           fontSize: 20,
-                          color: buttonColor,
+                          color: isDarkMode ? buttonColor : buttonTextColor,
                         ),
                       ),
                     ],
