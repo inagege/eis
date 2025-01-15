@@ -1,120 +1,130 @@
 import 'package:flutter/material.dart';
 //Todo: Hier könnt ihr eure Screens auskommentieren, dann unten im switch case noch passenden Screen auskommentieren
-//import 'Screens/yoga_screen.dart';
-import 'walk_start.dart';
-import 'nap_start.dart';
-import 'air_start.dart';
-//import 'Screens/coffee_screen.dart';
-//import 'Screens/clean_screen.dart';
+import 'selection_screen.dart';
+import 'settings_screen.dart';
+import 'selection_swipe_screen.dart';
 
-// Home Screen with Main Round Buttons and Circle on Top
 class HomeScreen extends StatelessWidget {
+  final Function(bool) onThemeChanged;
+  final bool isDarkMode;
+  final Function(Color,Color) onButtonColorChanged;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  final Function(String) onScreenSelectionChanged;
+  final String screenSelection;
 
-  final List<String> categories = ['Yoga', 'Walk', 'Nap', 'Air', 'Coffee', 'Clean'];
+  HomeScreen({required this.onThemeChanged, required this.isDarkMode, required this.onButtonColorChanged, required this.buttonColor, required this.buttonTextColor, required this.onScreenSelectionChanged, required this.screenSelection});
 
-  @override
-  Widget build(BuildContext context) {
-    // Calculate button size based on screen width
-    double screenWidth = MediaQuery.of(context).size.width;
-    double buttonSize = (screenWidth - 10) / 3; // Subtract padding and spacing
-
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          // Small circle at the top of the screen
-          Container(
-            margin: EdgeInsets.only(top: 10), // Position circle downwards
-            width: 20, // Diameter of the circle
-            height: 20,
-            decoration: BoxDecoration(
-              color: Color(0xFFFFC0CB), // Light pink color
-              shape: BoxShape.circle,
-            ),
-          ),
-
-          // Spacing below the circle
-          SizedBox(height: 5),
-
-          // Grid of Round Buttons
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              padding: EdgeInsets.all(25),
-              children: categories.map((name) => RoundButton(
-                label: name,
-                size: buttonSize,
-                onPressed: () {
-                  Widget targetScreen;
-                  switch (name) {
-                  //Todo: Screen auskommentieren
-                  /*case 'Yoga':
-                      targetScreen = YogaScreen();
-                      break;*/
-                    case 'Walk':
-                      targetScreen = WalkStartScreen();
-                      break;
-                    case 'Nap':
-                      targetScreen = NapStartScreen();
-                      break;
-                    case 'Air':
-                      targetScreen = AirStartScreen();
-                      break;
-                  /*case 'Coffee':
-                      targetScreen = CoffeeScreen();
-                      break;
-                    case 'Food':
-                      targetScreen = FoodScreen();
-                      break;*/
-                    default:
-                      targetScreen = HomeScreen(); // Fallback screen
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => targetScreen),
-                  );
-                },
-              ))
-                  .toList(),
-            ),
-          ),
-        ],
+  // Navigate to Settings Screen
+  void navigateToSettings(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SettingsScreen(onThemeChanged: onThemeChanged,
+          isDarkMode: isDarkMode,
+          onButtonColorChanged: onButtonColorChanged, // Pass button color callback
+          buttonColor: buttonColor, // Pass the button color
+          buttonTextColor: buttonTextColor, // Pass the button text color
+          onScreenSelectionChanged: onScreenSelectionChanged,
+          screenSelection: screenSelection,
+        ),
       ),
     );
   }
-}
 
-// Round Button Widget
-class RoundButton extends StatelessWidget {
-  final String label;
-  final VoidCallback onPressed;
-  final double size; // Add size parameter
+  // Navigate to Selection Screen
+  void navigateToSelection(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectionScreen(onThemeChanged: onThemeChanged,
+        isDarkMode: isDarkMode,
+        onButtonColorChanged: onButtonColorChanged, // Pass button color callback
+        buttonColor: buttonColor, // Pass the button color
+        buttonTextColor: buttonTextColor, // Pass the button text color
+        onScreenSelectionChanged: onScreenSelectionChanged,
+        screenSelection: screenSelection,
+      )),
+    );
+  }
 
-  const RoundButton({super.key,
-    required this.label,
-    required this.onPressed,
-    required this.size
-  });
+  // Navigate to Selection Swipe Screen
+  void navigateToSelectionSwipe(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectionSwipeScreen(onThemeChanged: onThemeChanged,
+        isDarkMode: isDarkMode,
+        onButtonColorChanged: onButtonColorChanged, // Pass button color callback
+        buttonColor: buttonColor, // Pass the button color
+        buttonTextColor: buttonTextColor, // Pass the button text color
+        onScreenSelectionChanged: onScreenSelectionChanged,
+        screenSelection: screenSelection,
+      )),
+    );
+  }
+
+  void navigateBasedOnSelection(String screenSelection, BuildContext context) {
+    if (screenSelection == 'Grid') {
+      // Navigate to SelectionScreen
+      navigateToSelection(context);
+    } else {
+      // Navigate to SelectionSwipeScreen
+      navigateToSelectionSwipe(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: size, // Use dynamic size
-        height: size, // Use dynamic size
-        decoration: BoxDecoration(
-          color: Color(0xFFFFC0CB),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(fontSize: size * 0.2, color: Color(0xFF4D2324)), // Adjust font size
-            textAlign: TextAlign.center,
-          ),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            // Settings Button (Smaller)
+            ElevatedButton(
+              onPressed: () => navigateToSettings(context),
+              child: Icon(Icons.settings, color: buttonTextColor),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: buttonColor,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                side: BorderSide(
+                  color: buttonColor,
+                  width: 1,
+                ),
+                shape: CircleBorder(
+                  side: BorderSide(
+                    color: buttonColor,
+                    width: 1,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Main text and Start Session Button
+            Text(
+              'Need a break?',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? buttonColor : buttonTextColor,
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 160, // <-- match_parent
+              height: 50, // <-- match-parent
+              child:
+              ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
+                onPressed: () => navigateBasedOnSelection(screenSelection, context),
+                child: Text(
+                  'Start Session',
+                  style: TextStyle(
+                      color: buttonTextColor,
+                      fontSize: 18),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

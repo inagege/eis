@@ -34,6 +34,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  is_first_run: ^1.0.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +65,18 @@ flutter:
     - assets/air_animation.gif
     - assets/sleep_animation.gif
     - assets/walking_animation.gif
+    - assets/images/yogaicon.png
+    - assets/images/yoga1.png
+    - assets/images/yoga2.png
+    - assets/images/yoga3.png
+    - assets/images/yoga4.png
+    - assets/images/yoga5.png
+    - assets/gif/clean.gif
+
+    #- assets/music/hearty.mp3
+    #- assets/music/hope.mp3
+    #- assets/music/yesterday.mp3
+    - assets/coffee.gif
 
   # To add assets to your application, add an assets section, like this:
   # assets:
