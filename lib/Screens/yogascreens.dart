@@ -25,6 +25,8 @@ class YogaScreens extends StatefulWidget {
 }
 
 class _YogaScreensState extends State<YogaScreens> {
+  int currentIndex = 0;
+  Timer? timer;
   final List<Map<String, dynamic>> screens = [
     {
       'title': 'Ready to start?',
@@ -168,13 +170,16 @@ class _YogaScreensState extends State<YogaScreens> {
                 height: screens[currentIndex]['imageHeight'],
               ),
             SizedBox(height: 10),
+            if (hasDescription)
+              SizedBox(height: 10), // Adjust spacing if image is shown
+            SizedBox(height: 07),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: screens[currentIndex].containsKey('description') ?
               Text(
                 screens[currentIndex]['description'],
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 23,
                   color: widget.isDarkMode ? widget.buttonColor : widget.buttonTextColor,
                   fontWeight: FontWeight.bold,
                 ),
