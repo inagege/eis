@@ -108,6 +108,8 @@ class _YogaScreensState extends State<YogaScreens> {
 
   @override
   Widget build(BuildContext context) {
+    bool hasDescription = screens[currentIndex]['description'] != null;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -138,21 +140,25 @@ class _YogaScreensState extends State<YogaScreens> {
                 width: screens[currentIndex]['imageWidth'],
                 height: screens[currentIndex]['imageHeight'],
               ),
-            SizedBox(height: 20),
+            if (hasDescription)
+              SizedBox(height: 10), // Adjust spacing if image is shown
+            SizedBox(height: 07),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: screens[currentIndex].containsKey('description') ?
               Text(
                 screens[currentIndex]['description'],
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 23,
                   color: widget.isDarkMode ? widget.buttonColor : widget.buttonTextColor,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ) : Container(),
             ),
-            SizedBox(height: 20),
+            if (hasDescription)
+              SizedBox(height: 4),
+            SizedBox(height: 13),
             SizedBox(
               width: 170, // <-- match_parent
               height: 50, // <-- match-parent

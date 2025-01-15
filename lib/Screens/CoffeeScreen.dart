@@ -44,7 +44,7 @@ class CoffeePromptScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Text(
                 'How about a coffee break?',
                 style: TextStyle(
@@ -54,7 +54,7 @@ class CoffeePromptScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               SizedBox(
                 width: 170, // <-- match_parent
                 height: 50, // <-- match-parent
@@ -252,7 +252,7 @@ class CoffeeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Text(
                 'Your coffee is ready!',
                 style: TextStyle(
@@ -262,7 +262,7 @@ class CoffeeScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
 
               SizedBox(
                 width: 170, // <-- match_parent
