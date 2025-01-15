@@ -44,7 +44,7 @@ class NapStartScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 10),
+            SizedBox(height: 5),
 
             // Inhalt des NapStartScreens
             Expanded(
@@ -63,15 +63,15 @@ class NapStartScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
 
-                      SizedBox(height: 10),
+                      SizedBox(height: 2),
 
                       Icon(
                         Icons.bed,
                         color: isDarkMode ? buttonColor : buttonTextColor,
-                        size: 50.0,
+                        size: 37.0,
                       ),
 
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 6),
 
                       SizedBox(
                         width: 140, // <-- match_parent

@@ -67,19 +67,19 @@ class SetupScreen extends StatelessWidget {
             ),
 
             // Spacing below the circle
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Text(
               'This app requires\naccess to:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 2),
             Text(
               'Local Network Devices\nSamsung Health',
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 1),
+            SizedBox(height: 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

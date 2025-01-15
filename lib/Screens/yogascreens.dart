@@ -119,6 +119,7 @@ class _YogaScreensState extends State<YogaScreens> {
 
   @override
   Widget build(BuildContext context) {
+    bool hasDescription = screens[currentIndex]['description'] != null;
     return Scaffold(
       body: Center(
         child: Column(
@@ -151,14 +152,17 @@ class _YogaScreensState extends State<YogaScreens> {
                 ),
               ),
             if (screens[currentIndex]['image'] != null)
-              SizedBox(height: 10),
+              SizedBox(height: 2),
             if (screens[currentIndex]['image'] != null)
               Image.asset(
                 screens[currentIndex]['image'],
                 width: screens[currentIndex]['imageWidth'],
                 height: screens[currentIndex]['imageHeight'],
               ),
-            SizedBox(height: 10),
+
+            if (hasDescription)
+              SizedBox(height: 4),
+            SizedBox(height: 2),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: screens[currentIndex].containsKey('description') ?
@@ -172,7 +176,9 @@ class _YogaScreensState extends State<YogaScreens> {
                 textAlign: TextAlign.center,
               ) : Container(),
             ),
-            SizedBox(height: 10),
+            if (hasDescription)
+              SizedBox(height: 8),
+            SizedBox(height: 2),
             SizedBox(
               width: 170,
               height: 50,

@@ -44,7 +44,7 @@ class CleaningPromptScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 18),
               Text(
                 'Tidy up and let it shine!',
                 style: TextStyle(
@@ -54,7 +54,7 @@ class CleaningPromptScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 16),
               SizedBox(
                 width: 170, // <-- match_parent
                 height: 50, // <-- match-parent
@@ -252,7 +252,7 @@ class CleaningScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 18),
               Text(
                 'Bravo, cleaning done!',
                 style: TextStyle(
@@ -262,7 +262,7 @@ class CleaningScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 16),
 
               SizedBox(
                 width: 170, // <-- match_parent

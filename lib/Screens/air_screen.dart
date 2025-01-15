@@ -128,7 +128,7 @@ class _AirScreenState extends State<AirScreen> {
                 ),
               ),
 
-              SizedBox(height: 10),
+              SizedBox(height: 5),
 
               Text(
                 'Time left: ${minutes.toString().padLeft(2, '0')}:'
@@ -141,7 +141,7 @@ class _AirScreenState extends State<AirScreen> {
                 ),
               ),
 
-              SizedBox(height: 10),
+              SizedBox(height: 2),
 
               //const Spacer(),
 // Bild
@@ -149,11 +149,11 @@ class _AirScreenState extends State<AirScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
                 child: Image.asset(
                   'assets/air_animation.gif',
-                  width: 125,
-                  height: 75,
+                  width: 100,
+                  height: 60,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 9),
               Padding(
                 padding: const EdgeInsets.only(bottom: 0.0),
                 child: Center(
