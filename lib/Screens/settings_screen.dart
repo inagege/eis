@@ -267,8 +267,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildGridPreview() {
     return Container(
-      width: 75,
-      height: 75,
+      width: 65,
+      height: 65,
       child: GridView.count(
         crossAxisCount: 3,
         crossAxisSpacing: 4,
@@ -287,20 +287,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSlidingPreview() {
     return Container(
-      width: 75,
-      height: 75,
+      width: 65,
+      height: 65,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 35,
+            height: 35,
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 5),
           Icon(Icons.swipe, color: Colors.white),
         ],
       ),
