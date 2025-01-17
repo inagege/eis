@@ -94,6 +94,9 @@ fun AppNavigation(
                 buttonTextColor = buttonTextColor,
                 onScreenSelectionChanged = onScreenSelectionChanged,
                 screenSelection = screenSelection,
+                onNavigateToVent = {
+                    navController.navigate("air_start")
+                },
                 onNavigateToCoffee = {
                     navController.navigate("coffee_prompt")
                 },
@@ -106,6 +109,9 @@ fun AppNavigation(
                 onNavigateToWalk = {
                     navController.navigate("walk_start")
                 },
+                onNavigateToNap = {
+                    navController.navigate("nap_start")
+                }
 
 
             )
@@ -121,6 +127,9 @@ fun AppNavigation(
                 buttonTextColor = buttonTextColor,
                 onScreenSelectionChanged = onScreenSelectionChanged,
                 screenSelection = screenSelection,
+                onNavigateToVent = {
+                    navController.navigate("air_start")
+                },
                 onNavigateToCoffee = {
                     navController.navigate("coffee_prompt")
                 },
@@ -133,6 +142,9 @@ fun AppNavigation(
                 onNavigateToWalk = {
                     navController.navigate("walk_start")
                 },
+                onNavigateToNap = {
+                    navController.navigate("nap_start")
+                }
 
 
             )
@@ -271,6 +283,62 @@ fun AppNavigation(
                 }
             )
         }
+        composable("nap_start") {
+            NapStartScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onStartNap = { navController.navigate("nap_screen") }
+            )
+        }
+
+        composable("nap_screen") {
+            NapScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onBackToHome = {
+                    navController.navigate("home_screen") {
+                        popUpTo("home_screen")
+                    }
+                }
+            )
+        }
+        composable("air_start") {
+            AirStartScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onStartVent = { navController.navigate("air_screen") }
+            )
+        }
+
+        composable("air_screen") {
+            AirScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onBackToHome = { navController.navigate("home_screen") }
+            )
+        }
+
+
 
         // Weitere Screens (Yoga, Nap, Coffee, Clean, etc.) könntest du hier ergänzen.
     }

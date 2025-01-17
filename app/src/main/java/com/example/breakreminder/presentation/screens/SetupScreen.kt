@@ -3,6 +3,7 @@ package com.example.breakreminder.presentation
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -33,13 +34,15 @@ fun SetupScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Circular Icon (Matching HomeScreen)
             Box(
                 modifier = Modifier
                     .size(20.dp)
-                    .background(buttonColor),
+                    .offset(y = 10.dp) // Adjusted to match HomeScreen placement
+                    .background(buttonColor, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -49,20 +52,32 @@ fun SetupScreen(
                     modifier = Modifier.size(15.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(5.dp))
 
-            Text(text = "This app requires\naccess to:", fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                text = "This app requires\naccess to:",
+                fontSize = 18.sp,
+                color = buttonTextColor
+            )
+
             Spacer(modifier = Modifier.height(2.dp))
-            Text(text = "Local Network Devices\nSamsung Health", fontSize = 16.sp)
+
+            Text(
+                text = "Local Network Devices\nSamsung Health",
+                fontSize = 16.sp,
+                color = buttonTextColor
+            )
+
             Spacer(modifier = Modifier.height(5.dp))
 
+            // Buttons
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Button(
+                ElevatedButton(
                     onClick = {
-                        // z. B. onDeny() -> activity?.finish()
                         onDeny()
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -76,9 +91,8 @@ fun SetupScreen(
                     Text("Deny")
                 }
 
-                Button(
+                ElevatedButton(
                     onClick = {
-                        // Weiter zum Home-Screen
                         onNavigateToHome()
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -92,6 +106,8 @@ fun SetupScreen(
                     Text("Agree")
                 }
             }
+
+            Spacer(modifier = Modifier.height(20.dp)) // Adds spacing at bottom for balance
         }
     }
 }
