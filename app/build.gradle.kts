@@ -58,6 +58,7 @@ dependencies {
     // Foundation und Material (hier sind Scaffold, Button, Text usw. enthalten)
     implementation(libs.compose.foundation)
     implementation(libs.compose.material)
+    implementation("com.github.skydoves:landscapist-glide:2.1.8")
 
     // Für Icons (z. B. Icons.Filled.*)
     implementation(libs.material.icons.extended)

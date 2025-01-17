@@ -94,9 +94,19 @@ fun AppNavigation(
                 buttonTextColor = buttonTextColor,
                 onScreenSelectionChanged = onScreenSelectionChanged,
                 screenSelection = screenSelection,
+                onNavigateToCoffee = {
+                    navController.navigate("coffee_prompt")
+                },
                 onNavigateToYoga = {
                     navController.navigate("yoga_screen")
-                }
+                },
+                onNavigateToClean = {
+                    navController.navigate("cleaning_prompt")
+                },
+                onNavigateToWalk = {
+                    navController.navigate("walk_start")
+                },
+
 
             )
         }
@@ -111,9 +121,19 @@ fun AppNavigation(
                 buttonTextColor = buttonTextColor,
                 onScreenSelectionChanged = onScreenSelectionChanged,
                 screenSelection = screenSelection,
+                onNavigateToCoffee = {
+                    navController.navigate("coffee_prompt")
+                },
                 onNavigateToYoga = {
                     navController.navigate("yoga_screen")
-                }
+                },
+                onNavigateToClean = {
+                    navController.navigate("cleaning_prompt")
+                },
+                onNavigateToWalk = {
+                    navController.navigate("walk_start")
+                },
+
 
             )
         }
@@ -135,6 +155,122 @@ fun AppNavigation(
             )
         }
 
+        composable("coffee_prompt") {
+            CoffeePromptScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onStartMachine = { navController.navigate("coffee_video") }
+            )
+        }
+
+        composable("coffee_video") {
+            CoffeeVideoScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onFinishCoffeeVideo = {
+                    navController.navigate("coffee_screen") {
+                        popUpTo("coffee_video") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable("coffee_screen") {
+            CoffeeScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onBackToHome = {
+                    navController.navigate("home_screen") {
+                        popUpTo("home_screen")
+                    }
+                }
+            )
+        }
+
+        composable("cleaning_prompt") {
+            CleaningPromptScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onStartCleaning = { navController.navigate("cleaning_video") }
+            )
+        }
+
+        composable("cleaning_video") {
+            CleaningVideoScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onFinishCleaningVideo = { navController.navigate("cleaning_screen") }
+            )
+        }
+
+        composable("cleaning_screen") {
+            CleaningScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onBackToHome = { navController.navigate("home_screen") }
+            )
+        }
+        composable("walk_start") {
+            WalkStartScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onStartWalk = {
+                    navController.navigate("walk_screen")
+                }
+            )
+        }
+
+        composable("walk_screen") {
+            WalkScreen(
+                onThemeChanged = onThemeChanged,
+                isDarkMode = isDarkMode,
+                onButtonColorChanged = onButtonColorChanged,
+                buttonColor = buttonColor,
+                buttonTextColor = buttonTextColor,
+                onScreenSelectionChanged = onScreenSelectionChanged,
+                screenSelection = screenSelection,
+                onBackToHome = {
+                    navController.navigate("home_screen") {
+                        popUpTo("home_screen")
+                    }
+                }
+            )
+        }
 
         // Weitere Screens (Yoga, Nap, Coffee, Clean, etc.) könntest du hier ergänzen.
     }

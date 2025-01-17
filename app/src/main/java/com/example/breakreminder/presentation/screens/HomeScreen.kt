@@ -58,7 +58,7 @@ fun HomeScreen(
                 fontSize = 24.sp,
                 color = if (isDarkMode) buttonColor else buttonTextColor
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(26.dp))
 
             Button(
                 onClick = { onNavigateToSelection() },
